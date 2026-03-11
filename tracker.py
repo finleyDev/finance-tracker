@@ -33,8 +33,20 @@ def add_entry():
         user_kind = kinds[user_kind - 1]
         
         amount = int(input("How much did you spend"))
-
-        date = datetime.now().strftime("%Y-%m-%d %H:%M")
+        print("1 for spefic date")
+        print("2 for current date")
+        date = input(">")
+        if date == "1":
+            try:
+                print("What month")
+                month = int(input(">"))
+                print("What day?")
+                day = int(input(">"))
+                date = datetime(2026, month, day, 0 , 0).strftime("%Y/%m/%d, %H:%M")
+            except ValueError:
+                print("Invalid Input")
+        if date == "2":
+            date = datetime.now().strftime("%Y-%m-%d %H:%M")
 
         entries.append({"category" : user_kind, "amount" : amount , "date" : date})
 
