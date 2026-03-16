@@ -120,7 +120,19 @@ def show_coordinate():
     if user_input > len(kinds)+1 or user_input < 1:
         return
     if user_input == len(kinds)+1:
-        kind = "All"
+        categories = []
+        amounts = []
+
+        for kind in kinds:
+            total = sum(int(e["amount"]) for e in entries if e["category"] == kind)
+            categories.append(kind)
+            amounts.append(total)
+        plt.bar(categories, amounts)
+        plt.title("Chart")
+        plt.xlabel("Category")
+        plt.ylabel("€")
+        plt.tight_layout()
+        plt.show()
     
     else:
         kind = kinds[user_input-1]
