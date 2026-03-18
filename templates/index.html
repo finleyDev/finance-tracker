@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{font-family: Arial, Helvetica, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #f5f5f5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #1a56a0;
+            color: white;
+        }
+        </style>
+        <title>Finance Tracker</title>
+    </head>
+    <body>
+        <h1> Finance Tracker </h1>
+        <p> Welcome to your personal finance tracker </p>
+        <table>
+            <tr>
+               <th>Category</th>
+               <th>Amount</th>
+               <th>Date</th>
+            </tr>
+            {% for entry in entries %}
+            <tr>
+                <td>{{ entry.category }}</td>
+                <td>{{ entry.amount }}</td>
+                <td>{{ entry.date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <p><strong>Total spent: {{ total }} </strong></p>
+    </body>
+</html>

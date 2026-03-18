@@ -2,8 +2,7 @@
 from datetime import datetime
 import csv
 from matplotlib import pyplot as plt
-import numpy as np
-import math
+
 
 entries = []
 kinds = ["Food",
@@ -21,7 +20,6 @@ def load_entries():
         pass
 
 def add_entry():
-
     while True:
         for i, kind in enumerate(kinds, start=1):
             print(f"{i} {kind}")
@@ -33,9 +31,11 @@ def add_entry():
         if user_kind == len(kinds) + 1:
             break
 
+
         user_kind = kinds[user_kind - 1]
         
-        amount = int(input("How much did you spend"))
+        print("How much did you spend")
+        amount = int(input(">"))
         print("1 for specific date")
         print("2 for current date")
         date = input(">")
@@ -54,7 +54,8 @@ def add_entry():
 
         entries.append({"category" : user_kind, "amount" : amount , "date" : date})
 
-        another = input("Add another entry? y/n")
+        print("Add another entry? y/n")
+        another = input(">")
         if another == "n":
             break
 
@@ -92,10 +93,10 @@ def show_category():
     for entry in entries:
         if entry["category"] == user_input:
             category = category + int(entry["amount"])
-            if category == 0:
-                print(f"No entries found for {user_input}")
-            else:
-                print(category)
+    if category == 0:
+        print(f"No entries found for {user_input}")
+    else:
+        print(category)
 
 
 
@@ -142,20 +143,17 @@ def show_coordinate():
                 month = e["date"][5:7]
                 if month not in monthly:
                     monthly[month] = 0
-                monthly[month] =+ int(e["amount"])
+                monthly[month] += int(e["amount"])
      
         plt.plot(list(monthly.keys()), list(monthly.values()), color= "red", marker = "o")
         plt.title(f"Spending {kind}")
         plt.xlabel("Month")
         plt.ylabel("€")
-        plt.tight_layout
+        plt.tight_layout()
         plt.show()
 
 
                                    
-
-
-
 load_entries()
 
 while True:
