@@ -42,5 +42,16 @@
             {% endfor %}
         </table>
         <p><strong>Total spent: {{ total }} </strong></p>
+        <h2>Add Expense</h2>
+        <form action="/add" method="POST">
+            <select name="category">
+                <option>Food</option>
+                <option>Clothes</option>
+                <option>Girlfriend</option>
+                <option>Learn</option>
+            </select>
+            <input type="number" name="amount" min="1" placeholder="Amount in €">
+            <button type="submit">Add Entry</button>
+        </form>
     </body>
 </html>
