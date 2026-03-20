@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect
-from helpers import load_entries, save_entries
+from helpers import load_entries, save_entries, show_chart
 from datetime import datetime
 import csv
+import time
 
 app = Flask(__name__)
 
@@ -13,7 +14,8 @@ load_entries()
 def home():
     entries = load_entries()
     total = sum(int(e["amount"])for e in entries)
-    return render_template("index.html", entries=entries, total=total)
+    show_chart(entries)
+    return render_template("index.html", entries=entries, total=total, timestamp=time.time())
 
 @app.route("/add", methods=["POST"])
 def add():
