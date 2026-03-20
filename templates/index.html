@@ -32,12 +32,19 @@
                <th>Category</th>
                <th>Amount</th>
                <th>Date</th>
+               <th>Action</th>
             </tr>
             {% for entry in entries %}
             <tr>
                 <td>{{ entry.category }}</td>
                 <td>{{ entry.amount }}</td>
                 <td>{{ entry.date }}</td>
+                <td>
+                    <form action="/delete/{{ loop.index0 }}" method="POST">
+                        <button type="submit">Delete</button>
+
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </table>
@@ -53,5 +60,7 @@
             <input type="number" name="amount" min="1" placeholder="Amount in €">
             <button type="submit">Add Entry</button>
         </form>
+        <h2>Remove entry</h2>
+        <form action="/delete/0", method="POST"></form>
     </body>
 </html>

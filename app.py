@@ -1,20 +1,11 @@
 from flask import Flask, render_template, request, redirect
+from helpers import load_entries, save_entries
 from datetime import datetime
 import csv
 
 app = Flask(__name__)
 
-def load_entries():
-    entries = []
-    try:
-        with open("tracker.csv", "r") as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                entries.append(row)
-
-    except FileNotFoundError:
-        pass
-    return entries
+load_entries()
 
 
 @app.route("/")
@@ -28,13 +19,31 @@ def home():
 def add():
     category = request.form["category"]
     amount = request.form["amount"]
-    date = datetime.now().strftime("%Y-%m%d %H:%M")
+    if not amount:
+        return redirect("/home")
+    
+    try:
+        amount = int(amount)
+    except ValueError:
+        return redirect("/home")
+    
+    date = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    
 
     with open("tracker.csv", "a", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=["category", "amount", "date"])
         writer.writerow({"category": category, "amount": amount, "date": date})
 
     return redirect("/home")
+
+@app.route("/delete/<int:index>", methods=["POST"])
+def delete(index):
+    entries = load_entries()
+    entries.pop(index)
+    save_entries(entries)
+    return redirect("/home")
+
 
 
 
