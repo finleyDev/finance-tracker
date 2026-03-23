@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from helpers import load_entries, save_entries, show_chart
 from datetime import datetime
 import csv
@@ -6,7 +6,6 @@ import time
 
 app = Flask(__name__)
 
-load_entries()
 
 
 @app.route("/")
@@ -30,9 +29,6 @@ def add():
         return redirect("/home")
     
     date = datetime.now().strftime("%Y-%m-%d %H:%M")
-
-    
-
     with open("tracker.csv", "a", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=["category", "amount", "date"])
         writer.writerow({"category": category, "amount": amount, "date": date})
@@ -45,6 +41,11 @@ def delete(index):
     entries.pop(index)
     save_entries(entries)
     return redirect("/home")
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+  
 
 
 
