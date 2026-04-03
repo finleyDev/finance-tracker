@@ -13,7 +13,6 @@ app = Flask(__name__)
 def home():
     entries = load_entries()
     total = sum(int(e["amount"])for e in entries)
-    show_chart(entries)
     return render_template("index.html", entries=entries, total=total, timestamp=time.time())
 
 @app.route("/add", methods=["POST"])
@@ -32,7 +31,8 @@ def add():
     with open("tracker.csv", "a", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=["category", "amount", "date"])
         writer.writerow({"category": category, "amount": amount, "date": date})
-
+    entries = load_entries()
+    show_chart(entries)
     return redirect("/home")
 
 @app.route("/delete/<int:index>", methods=["POST"])
@@ -40,6 +40,7 @@ def delete(index):
     entries = load_entries()
     entries.pop(index)
     save_entries(entries)
+    show_chart(entries)
     return redirect("/home")
 
 @app.route("/login")
@@ -51,4 +52,4 @@ def login():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

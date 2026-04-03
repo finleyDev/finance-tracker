@@ -1,4 +1,6 @@
 import csv
+import matplotlib
+matplotlib.use("Agg")
 from matplotlib import pyplot as plt
 
 kinds = ["Food",
@@ -31,6 +33,8 @@ def save_entries(entries):
 
 
 def show_chart(entries):
+    import os
+    os.makedirs("static", exist_ok=True)
     categories = []
     amount = []
     for kind in kinds:
